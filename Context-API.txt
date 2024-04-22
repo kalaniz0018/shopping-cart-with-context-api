@@ -1,0 +1,80 @@
+context en react: es una herramienta poderosa para pasar datos a través de la jerarquía de componentes sin 
+tener que pasar props manualmente en cada nivel.
+En React, cuando necesitas pasar datos desde un componente padre a un componente hijo, normalmente lo haces a través de props. Sin embargo, esto puede 
+volverse engorroso cuando tienes muchos niveles de anidamiento o cuando varios componentes necesitan acceder a los mismos datos.
+
+Es ahí donde entra en juego el Context API de React. Con el Context API, puedes crear un "contexto" que actúa como un almacén global de datos que 
+están disponibles para todos los componentes descendientes sin necesidad de pasar explícitamente props a través de cada nivel de la jerarquía.
+
+El flujo básico de trabajo con el Context API es el siguiente:
+
+Crear el contexto: En algún lugar de tu aplicación, normalmente en un archivo aparte, creas un contexto utilizando React.createContext().
+Proporcionar el contexto: Utilizas el componente Provider que proporciona el contexto creado en la parte superior de tu árbol de componentes. Este componente
+ envuelve todos los componentes que necesitan acceder a los datos del contexto.
+Consumir el contexto: Los componentes que necesitan acceder a los datos del contexto pueden hacerlo utilizando el componente Consumer o el hook useContext.
+Aquí hay un ejemplo simple para ilustrar cómo funciona:
+
+// En un archivo llamado MyContext.js
+
+import React from 'react';
+
+// Crear el contexto
+const MyContext = React.createContext();
+
+export default MyContext;
+// En otro archivo, donde quieras usar el contexto
+
+import React from 'react';
+import MyContext from './MyContext';
+
+// Componente que proporciona el contexto
+const ParentComponent = () => {
+  const data = { nombre: 'Ejemplo', edad: 25 };
+
+  return (
+    <MyContext.Provider value={data}>
+      <ChildComponent />
+    </MyContext.Provider>
+  );
+};
+
+// Componente que consume el contexto
+const ChildComponent = () => {
+  return (
+    <MyContext.Consumer>
+      {value => (
+        <div>
+          <p>Nombre: {value.nombre}</p>
+          <p>Edad: {value.edad}</p>
+        </div>
+      )}
+    </MyContext.Consumer>
+  );
+};
+
+export default ParentComponent;
+
+En este ejemplo, ParentComponent proporciona el contexto utilizando <MyContext.Provider>, pasando los datos a través del prop value. Luego, 
+ChildComponent consume el contexto utilizando <MyContext.Consumer> y accede a los datos proporcionados.
+
+El uso de contextos puede simplificar significativamente la propagación de datos en una aplicación de React, especialmente en casos donde los datos
+ necesitan ser accesibles en múltiples niveles de la jerarquía de componentes.
+
+ FORTMA MAS DIDACTICA 
+ Vamos a simplificarlo. Imagina que estás organizando una fiesta y querés compartir algunos detalles con tus amigos que asistirán. 
+ En lugar de tener que ir de uno a uno y contarles a cada uno, decidis escribir esos detalles en un papel y colocarlo en una mesa central donde todos puedan verlo. 
+ Entonces, cada amigo puede simplemente ir a esa mesa y leer la información en lugar de que tú tengas que decírselo personalmente a cada uno.
+
+En este ejemplo:
+
+Tú eres como el componente principal que organiza la fiesta.
+Tus amigos son como los componentes hijos que quieren conocer los detalles.
+El papel en la mesa es como el contexto, donde colocas la información que deseas compartir.
+Entonces, en términos de React y el Context API:
+
+Crear el contexto: Es como crear ese papel con los detalles. Usas React.createContext() para hacer esto.
+Proporcionar el contexto: Es como poner ese papel en la mesa central. Usas <MyContext.Provider> para envolver tus componentes y pasarles los datos a través del prop value.
+Consumir el contexto: Es como que tus amigos vayan a la mesa y lean los detalles del papel. Pueden usar <MyContext.Consumer> o el hook useContext para acceder a los datos 
+que has proporcionado.
+¡Espero que esta explicación te ayude a entender mejor cómo funciona el Context API en React! Es una forma conveniente de compartir datos entre componentes sin tener que 
+pasar props manualmente a través de cada nivel.
